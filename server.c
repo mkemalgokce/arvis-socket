@@ -14,7 +14,7 @@ int main() {
     // Socket oluşturma
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == -1) {
-        perror("Socket oluşturulamadı");
+        perror("[+] Socket oluşturulamadı.");
         exit(1);
     }
 
@@ -25,17 +25,17 @@ int main() {
 
     // Socket'i adres ve port ile bağlama
     if (bind(serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) == -1) {
-        perror("Bind hatası");
+        perror("[!] Bind hatası.");
         exit(1);
     }
 
     // Socket'i dinleme moduna al
     if (listen(serverSocket, 5) == -1) {
-        perror("Listen hatası");
+        perror("[!] Listen hatası.");
         exit(1);
     }
 
-    printf("Server başlatıldı. Bağlantı bekleniyor...\n");
+    printf("[+] Server başlatıldı. Bağlantı bekleniyor...\n");
 
     // İstemci bağlantısını kabul et
     
@@ -44,17 +44,17 @@ int main() {
     while (1) {
         clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddr, &clientAddrLen);
         if (clientSocket == -1) {
-            perror("Accept hatası");
+            perror("[!] Accept hatası");
             exit(1);
         }
 
-        printf("İstemci bağlandı: %s\n", inet_ntoa(clientAddr.sin_addr));
+        printf("[+] İstemci bağlandı: %s\n", inet_ntoa(clientAddr.sin_addr));
         while(1) {
             // 1 byte boyutunda mesaj al
             recv(clientSocket, buffer, sizeof(buffer), 0);
             
             if (buffer[0] == 1) {
-                printf("Mesaj alındı: 1\n");
+                printf("[+] Mesaj alındı: 1\n");
                 buffer[0] = 0;
                 break;
             }

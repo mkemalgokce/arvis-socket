@@ -13,7 +13,7 @@ int main() {
     // Socket oluşturma
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == -1) {
-        perror("Socket oluşturulamadı");
+        perror("[!] Socket oluşturulamadı.");
         exit(1);
     }
 
@@ -24,20 +24,20 @@ int main() {
 
     // Sunucuya bağlan
     if (connect(clientSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) == -1) {
-        perror("Bağlantı hatası");
+        perror("[!] Bağlantı hatası.");
         exit(1);
     }
 
-    printf("Sunucuya bağlandı.\n");
+    printf("[+] Sunucuya bağlandı.\n");
 
     // 1 byte mesajı gönder
     ssize_t bytesSent = send(clientSocket, buffer, sizeof(buffer), 0);
     if (bytesSent == -1) {
-        perror("Gönderme hatası");
+        perror("[!] Gönderme hatası.");
         exit(1);
     }
 
-    printf("Mesaj gönderildi: 1\n");
+    printf("[+] Mesaj gönderildi: 1\n");
 
     // Socket'i kapat
     close(clientSocket);
