@@ -8,7 +8,7 @@
 int main() {
     int clientSocket;
     struct sockaddr_in serverAddr;
-    char buffer[1] = {1};
+    char buffer[1] = {2};
 
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == -1) {
@@ -33,7 +33,7 @@ int main() {
         exit(1);
     }
 
-    printf("[+] Mesaj gönderildi: 1\n");
+    printf("[+] Mesaj gönderildi: %d\n", buffer[0]);
 
     close(clientSocket);
 

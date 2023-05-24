@@ -5,6 +5,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include "deviceconnector.h"
 int main() {
     int serverSocket, clientSocket;
     struct sockaddr_in serverAddr, clientAddr;
@@ -47,8 +48,9 @@ int main() {
 
             recv(clientSocket, buffer, sizeof(buffer), 0);
             
-            if (buffer[0] == 1) {
-                printf("[+] Mesaj alındı: 1\n");
+            if (buffer[0] == 1 || buffer[0] == 2) {
+                printf("[+] Mesaj alındı: %d\n", buffer[0]);
+                sendSignal(buffer[0]);
                 buffer[0] = 0;
                 break;
             }
