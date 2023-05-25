@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <wiringPi.h>
 
-#define NUM1 8
+#define NUM1 9
 #define NUM2 10
 
 int sendSignal(int signalNumber);

@@ -10,9 +10,9 @@ int main() {
     int serverSocket, clientSocket;
     struct sockaddr_in serverAddr, clientAddr;
     socklen_t clientAddrLen = sizeof(clientAddr);
-    char buffer[1] = {0};
+    uint8_t buffer;
 
-
+    writeLowForAllPins();
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == -1) {
         perror("[+] Socket oluşturulamadı.");
@@ -39,23 +39,23 @@ int main() {
     while (1) {
         clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddr, &clientAddrLen);
         if (clientSocket == -1) {
-            perror("[!] Accept hatası");
-            exit(1);
-        }
+            printf("[!] Accept hatası\n");
 
-        printf("[+] İstemci bağlandı: %s\n", inet_ntoa(clientAddr.sin_addr));
-        while(1) {
+        }else {
+	
+		printf("[+] İstemci bağlandı: %s\n", inet_ntoa(clientAddr.sin_addr));
 
-            recv(clientSocket, buffer, sizeof(buffer), 0);
+
+		recv(clientSocket, &buffer, sizeof(buffer), 0);
             
-            if (buffer[0] == 1 || buffer[0] == 2) {
-                printf("[+] Mesaj alındı: %d\n", buffer[0]);
-                sendSignal(buffer[0]);
-                buffer[0] = 0;
-                break;
-            }
-        }
-        
+		if (buffer == 1 || buffer == 2) {
+			printf("[+] Mesaj alındı: %d\n", buffer);
+			sendSignal(buffer);
+			buffer = 0;
+			
+		}
+	}
+
         
     }
 
