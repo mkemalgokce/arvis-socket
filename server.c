@@ -6,7 +6,19 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include "deviceconnector.h"
+#include "globals.h"
+
+struct Settings settings;
 int main() {
+
+    readIniFile("config.ini");
+
+    
+    printf("pinForIn = %d\n", settings.pinForIn);
+    printf("pinForOut = %d\n", settings.pinForOut);
+    printf("Port = %d\n", settings.port);
+    printf("MsDelay = %d\n", settings.delayMs);
+
     int serverSocket, clientSocket;
     struct sockaddr_in serverAddr, clientAddr;
     socklen_t clientAddrLen = sizeof(clientAddr);
@@ -21,7 +33,7 @@ int main() {
 
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = INADDR_ANY;
-    serverAddr.sin_port = htons(12345);  
+    serverAddr.sin_port = htons(settings.port);  
 
    
     if (bind(serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) == -1) {
@@ -50,7 +62,7 @@ int main() {
             
 		if (buffer == 1 || buffer == 2) {
 			printf("[+] Mesaj alındı: %d\n", buffer);
-			sendSignal(buffer);
+			sendSignal(buffer, settings.pinForIn, settings.pinForOut, settings.delayMs);
 			buffer = 0;
 			
 		}

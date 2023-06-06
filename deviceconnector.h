@@ -6,12 +6,10 @@
 #define ARVIS_SOCKET_DEVICECONNECTOR_H
 
 #include <stdio.h>
+#include "globals.h"
 #include <wiringPi.h>
 
-#define NUM1 9
-#define NUM2 10
-
-int sendSignal(int signalNumber);
+int sendSignal(int signalNumber, int pinForIn, int pinForOut, int delayMs);
 int writeLowForAllPins();
 
 #endif //ARVIS_SOCKET_DEVICECONNECTOR_H
